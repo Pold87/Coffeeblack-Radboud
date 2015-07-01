@@ -1,6 +1,7 @@
 # Team Coffeeblack
 
-To test a policy, run evaluation.py.
+To test a policy, run evaluation.py (currently still uses 10000
+instead of 100000 ids).
 
 evaluation.py first retrieves the entire context for a runid, using 10
 threads.
