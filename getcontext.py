@@ -48,7 +48,7 @@ def process_thread(ids, runid):
 
 def process_all_threads(runid, target):
 
-    num_ids = 10000
+    num_ids = 100000
     ids = np.arange(num_ids)
     threads = 10
     split_ids = chunks(ids, num_ids / threads)
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     colors = ['green', 'blue', 'red', 'black', 'white']
     productids = range(10, 26)
 
-    # process_all_threads(335, process_thread)
+    process_all_threads(335, process_thread)
 
     big_df = join_df(335)
     big_df.to_csv("context_335.csv", index=False)
