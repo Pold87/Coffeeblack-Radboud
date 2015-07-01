@@ -54,10 +54,10 @@ def main():
     all_arm_properties = bandits.create_all_arm_properties()
 
     # Initialize ids
-    ids = range(100000)
+    ids = range(1000)
 
     # Iterate over test set
-    for context in range(70000, 70001, 1):
+    for context in range(10001, 10002, 1):
 
         # Get and save context
         getcontext.process_all_threads(context, getcontext.process_thread)

@@ -50,16 +50,31 @@ def process_all_threads(runid, target):
 
     num_ids = 100000
     ids = np.arange(num_ids)
-    threads = 10
+    threads = 100
     split_ids = chunks(ids, num_ids / threads)
 
+    # If something breaks start at that chunk
+    startchunk = 27000
+    
     jobs = []
+
+    # Perform chunks in parallel or sequentially?
+    do_multithreading = False
     
     for chunk in split_ids:
-        p = multiprocessing.Process(target=target, args=(chunk, runid,))
-        jobs.append(p)
-        p.start()
-    [p.join() for p in jobs]
+
+        if chunk[0] < startchunk:
+            continue
+        
+        if do_multithreading:
+            p = multiprocessing.Process(target=target, args=(chunk, runid,))
+            jobs.append(p)
+            p.start()        
+        else:
+            target(chunk, runid)
+
+    if do_multithreading:            
+        [p.join() for p in jobs]
 
 def join_df(runid):
 
@@ -67,7 +82,7 @@ def join_df(runid):
     Join chunks to big df
     """
 
-    dfs = [pd.read_csv(str(runid) + "_" + str(i) + ".csv") for i in np.arange(0, 10000, 1000)]
+    dfs = [pd.read_csv(str(runid) + "_" + str(i) + ".csv") for i in np.arange(0, 100000, 1000)]
     big_df = pd.concat(dfs, ignore_index=True)
 
     return big_df
@@ -122,9 +137,8 @@ def propose_ad_thread(ids, runid):
     df.to_csv("rewards" + str(runid) + "_" + str(ids[0]) + ".csv", index=False)
 
 
-
-
 if __name__ == "__main__":
+
     headers = [5, 15, 35]
     adtypes = ['skyscraper', 'square', 'banner']
     colors = ['green', 'blue', 'red', 'black', 'white']

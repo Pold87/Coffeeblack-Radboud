@@ -192,16 +192,24 @@ class OnlineBootstrap(object):
         return r_json['Success'] * payload['price']
 
 
-    def create_dummy_arms(self, df):
+    # Create dummies for context
+    def create_dummy_context(self, path):
+
+        # Read in df
+        context_df = pd.read_csv(path)
 
         # Create dummy variables
-        df = pd.get_dummies(df, columns=['adtype',
-                                         'color',
-                                         'header',
-                                         'productid'])
+
+        context_df['Intercept'] = 1
+
+        df = pd.get_dummies(context_df, columns=['Agent',
+                                                 'Language',
+                                                 'Referer'
+        ])
 
         return df
-        
+
+    
 
     def select_arm(self):
 
