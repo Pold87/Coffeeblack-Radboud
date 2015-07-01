@@ -17,5 +17,9 @@ possible arms for contextual BTS (Bootstrap Thompson Sampling).
 
 - getcontext.py: contains methods for retrieving contexts.
 
+IMPORTANT: there's a variables startchunk in getcontext, it
+determines, from whereon the contexts should be retrieved (e.g., after
+a crash, contexts can be resumed from that id).
+
 - bandits.py: contains the code for the two phase model
 (epsilon-greedy and contextual BTS).
